@@ -1,30 +1,30 @@
 # iograft for Autodesk MotionBuilder
 
-This repository contains scripts and nodes for running iograft within Autodesk MotionBuilder. It includes the iograft Subcore for MotionBuilder
+This repository contains scripts and nodes for running iograft within Autodesk MotionBuilder. It includes the iograft Subcore for MotionBuilder, and a few example nodes.
 
 ## A Note on Running MotionBuilder in Batch
 
-MotionBuilder has a complicated history when it comes to executing Python scripts in a "batch" or headless mode that iograft relies on when running subcores.
+MotionBuilder has a complicated history when it comes to executing Python scripts in a "batch" or headless mode. Since iograft relies on the ability to start applications in batch to execute nodes, we must address this history.
 
 ### MotionBuilder 2018-2020
-Prior to version 2022, the Python interpreter (mobupy) did not have access to the MotionBuilder API. This complicates executing MotionBuilder scripts in batch, but it is still possible.
+Prior to version 2022, the Python interpreter (mobupy) did not have access to the MotionBuilder API. This complicates executing MotionBuilder scripts in batch because we have to launch the full MotionBuilder application, but it is still possible.
 
-The `bin/iogmobu_subcore.bat` is used for executing an iograft subcore within MotionBuilder. It launches MotionBuilder and passes in a Python script to be executed:
+The [`bin/iogmobu_subcore.bat`](bin/iogmobu_subcore.bat) script is used for executing the iograft subcore in this case. It launches MotionBuilder and passes in a Python script to be executed at launch:
 
 ```
 motionbuilder.exe -batch -console -verbosePython subcore_script.py
 ```
 
-In this example, the `subcore_script.py` file will be executed when MotionBuilder launches. Unfortunately, this script cannot take any external arguments so in order to pass the "core-address" argument that the subcore needs to connect to, we must create a temporary Python script and "bake" in the core-address argument.
+In this example, the `subcore_script.py` file will be executed when MotionBuilder launches. Unfortunately, this script cannot take any external arguments so in order to pass the "core-address" argument that the subcore needs to connect to, we must create a temporary Python script file and "bake" in the core-address argument.
 
-This is taken care of automatically in the `bin/iogmobu_subcore.bat` script. The `bin/iogmobu_subcore_template.py` file defines a Python script template that we bake the "core-address" argument into.
+This is taken care of automatically in the [`bin/iogmobu_subcore.bat`](bin/iogmobu_subcore.bat) script. The [`bin/iogmobu_subcore_template.py`](bin/iogmobu_subcore_template.py) file defines a Python script template that we bake the "core-address" argument into.
 
-**Note:** In MotionBuilder 2018, there is not `-batch` mode available, so the UI will be launched when the subcore is run. However, the UI will be "frozen" as it is executing the Python script, and when the subcore script finishes, the UI will automatically close.
+**Note:** In MotionBuilder 2018, there is no `-batch` mode available, so the UI will be launched when the subcore is run. However, the UI will be "frozen" as it is executing the Python script, and when the subcore script finishes, the UI will automatically close.
 
 ### MotionBuilder 2022:
 In MotionBuilder 2022, Autodesk upgraded the `mobupy` executable with full access to the MotionBuilder API. This makes running the iograft Subcore much easier as we can simply invoke the `mobupy` executable as a regular Python interpreter and easily pass in arguments.
 
-The `bin/iogmobupy_subcore.bat` script should be used as the Subcore Launch Command when using MotionBuilder 2022 to take advantage of the availability of `mobupy`.
+The [`bin/iogmobupy_subcore.bat`](bin/iogmobupy_subcore.bat) script should be used as the Subcore Launch Command when using MotionBuilder 2022 to take advantage of the availability of `mobupy`.
 
 ## Getting Started with a MotionBuilder Environment
 
@@ -42,6 +42,6 @@ iograft [Environment Quick Start Guide](https://docs.iograft.com/getting-started
 
 ## MotionBuilder Subcore for iograft
 
-The MotionBuilder Subcore for iograft (`iogmobu_subcore`) defines an iograft Subcore for executing nodes in the MotionBuilder environment.
+The MotionBuilder Subcore for iograft (`iogmobupy_subcore`/`iogmobu_subcore_template.py`) defines an iograft Subcore for executing nodes in the MotionBuilder environment.
 
 The main component of the MotionBuilder Subcore is that it uses the `iograft.MainThreadSubcore` class to ensure that all nodes are executed in the main thread.
