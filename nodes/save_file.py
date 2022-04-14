@@ -1,4 +1,4 @@
-# Copyright 2021 Fabrica Software, LLC
+# Copyright 2022 Fabrica Software, LLC
 
 import iograft
 import iobasictypes
@@ -8,8 +8,8 @@ class SaveFileMobu(iograft.Node):
     """
     Create a new file in Motion Builder (FILE > NEW).
     """
-    filename = iograft.InputDefinition("file", iobasictypes.String())
-    out_filename = iograft.OutputDefinition("filename", iobasictypes.String())
+    filename = iograft.InputDefinition("file", iobasictypes.Path())
+    out_filename = iograft.OutputDefinition("filename", iobasictypes.Path())
 
     @classmethod
     def GetDefinition(cls):

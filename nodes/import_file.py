@@ -1,4 +1,4 @@
-# Copyright 2021 Fabrica Software, LLC
+# Copyright 2022 Fabrica Software, LLC
 
 import iograft
 import iobasictypes
@@ -8,7 +8,7 @@ class ImportFileMobu(iograft.Node):
     """
     Import a file into Motion Builder.
     """
-    filename = iograft.InputDefinition("filename", iobasictypes.String())
+    filename = iograft.InputDefinition("filename", iobasictypes.Path())
     match_models = iograft.InputDefinition("match_models", iobasictypes.Bool(),
                                            default_value=False)
 
