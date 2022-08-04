@@ -11,6 +11,7 @@ class NewFileMobu(iograft.Node):
     @classmethod
     def GetDefinition(cls):
         node = iograft.NodeDefinition("new_file_mobu")
+        node.SetMenuPath("MotionBuilder")
         return node
 
     @staticmethod

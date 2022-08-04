@@ -15,6 +15,7 @@ class ImportFileMobu(iograft.Node):
     @classmethod
     def GetDefinition(cls):
         node = iograft.NodeDefinition("import_file_mobu")
+        node.SetMenuPath("MotionBuilder")
         node.AddInput(cls.filename)
         node.AddInput(cls.match_models)
         return node
